@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* styles/global.css 또는 다른 CSS 파일에서 정의 */
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* 전체 페이지에 적용할 폰트 설정 */
+body {
+  font-family: 'Pretendard-Regular', sans-serif; /* 사용자 정의 폰트 적용 */
+}
+
+
+.material-symbols-outlined {
+  font-size: 30px !important;
+  font-weight: 500 !important;
+}

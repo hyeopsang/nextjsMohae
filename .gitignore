@@ -1,0 +1,59 @@
+# Node.js 및 패키지 관리
+/node_modules/
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# 테스트 및 커버리지
+/coverage
+
+# Next.js 관련
+/.next/
+/out/
+
+# 프로덕션 빌드
+/build
+
+# IDE 및 편집기 관련
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# 디버깅
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 로컬 환경 파일
+.env.production
+
+# Vercel 관련
+.vercel
+
+# TypeScript 관련
+*.tsbuildinfo
+next-env.d.ts
+
+# 기타
+.DS_Store
+*.pem
+*.log
+*.tmp
+*.swp
+*.swo
+*.class
+*.dll
+*.so
+*.dylib
+
+# MacOS 관련
+.AppleDouble
+.LSOverride
+
+# Linux 관련
+.directory
+
+# Windows 관련
+Thumbs.db
+ehthumbs.db
