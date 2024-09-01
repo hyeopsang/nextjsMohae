@@ -35,7 +35,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       {
         addPost === false
         ? ''
-        : <div className='fixed w-screen h-screen flex justify-center items-center bg-black/70'><AddPost/></div>
+        : <div className='fixed w-screen h-screen flex justify-center items-center bg-white/70'><AddPost/></div>
       }
     </ThemeContext.Provider>
   );

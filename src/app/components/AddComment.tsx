@@ -39,9 +39,9 @@ const AddComment:React.FC<PostIdProps> = ({postId}) => {
     }
     
     return (
-        <div className="w-full flex justify-between items-center text-white pb-[15px]">
-            <input className="w-[450px] h-[35px] px-[15px] rounded-full bg-white/15" placeholder="서로 존중하며 대화해요" value={comment} onChange={onChangeComment}/>
-            <button className="w-[35px] aspect-square rounded-full bg-black/40 hover:bg-black/50 flex justify-center items-center" onClick={() => onSubmit()}>
+        <div className="w-full flex justify-between items-center text-black pb-[15px]">
+            <input className="w-[450px] h-[35px] px-[15px] rounded-full bg-black/5" placeholder="서로 존중하며 대화해요" value={comment} onChange={onChangeComment}/>
+            <button className="w-[35px] aspect-square rounded-full bg-black/5 hover:bg-black/10 flex justify-center items-center" onClick={() => onSubmit()}>
             <span className="material-symbols-outlined ml-[2px]">
                 keyboard_arrow_right
             </span>

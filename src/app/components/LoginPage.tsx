@@ -8,10 +8,10 @@ const LoginPage: React.FC = () => {
     const userId = session?.user?.email ?? '';
 
     return (
-        <div className="w-full flex justify-center items-center bg-black">
+        <div className="w-full flex justify-center items-center bg-white">
             {session ? (
                 <button 
-                    className="w-[100px] h-[fit] text-white text-[16px] font-[500] bg-black" 
+                    className="w-[100px] h-[fit] text-black text-[16px] font-[500] bg-white" 
                     onClick={() => signOut({ callbackUrl: "/" })}
                 >
                     <Image width={100} height={100} src="/googlelogo.png" alt="Google Logo" priority/>
@@ -19,7 +19,7 @@ const LoginPage: React.FC = () => {
                 </button>
             ) : (
                 <button 
-                    className="w-[100px] h-[fit] text-white text-[16px] font-[500] bg-black" 
+                    className="w-[100px] h-[fit] text-black text-[16px] font-[500] bg-white" 
                     onClick={() => signIn("google", { callbackUrl: "/" })}
                 >
                     <Image width={100} height={100} src="/googlelogo.png" alt="Google Logo" priority/>

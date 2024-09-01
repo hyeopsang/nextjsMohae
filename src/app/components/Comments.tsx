@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
+import { redirect } from "next/navigation";
 
 interface CommentData {
     id: number
@@ -18,7 +19,10 @@ const Comments:React.FC<CommentProps> = ({e}) => {
     const [error, setError] = useState<string | null>(null); 
 
     const handleClickDelete = async() => {
-        if (!e.id) return; 
+        if (!e.id) {
+            alert("로그인 해주세요");
+            return
+        }; 
         setLoading(true); 
         setError(null); 
         
@@ -34,7 +38,7 @@ const Comments:React.FC<CommentProps> = ({e}) => {
     }
 
     return (
-        <div className="w-full my-[5px] py-[15px] border-b border-white/15">
+        <div className="w-full my-[5px] py-[15px] border-b border-black/15">
             <div className="w-full flex justify-between">
             <p>{e.email}</p>
             {

@@ -16,9 +16,6 @@ const AddPost: React.FC<AddPostProps> = ({ onPostAdded }) => {
     const [tagTxt, setTagTxt] = useState<string>('');
     const [mainTxt, setMainTxt] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
-    if (!session) {
-        redirect('/login'); 
-      }
 
     const userId = session?.user?.email ?? '';
 
@@ -39,7 +36,7 @@ const AddPost: React.FC<AddPostProps> = ({ onPostAdded }) => {
 
     const onSubmit = async () => {
         if (!session) {
-            alert("You must be signed in to post.");
+            alert("로그인 해주세요");
             return;
         }
       
@@ -59,7 +56,7 @@ const AddPost: React.FC<AddPostProps> = ({ onPostAdded }) => {
     }
 
     return (
-        <div className="w-[420px] h-fit p-[20px] border border-white/15 bg-[#222] rounded-[15px] flex flex-wrap items-end">
+        <div className="w-[420px] h-fit p-[20px] border border-black/15 bg-[#222] rounded-[15px] flex flex-wrap items-end">
             <textarea 
                 placeholder="내용을 작성해 주세요" 
                 className="w-full h-[200px] bg-transparent p-2 rounded mb-2 text-white" 
@@ -90,7 +87,7 @@ const AddPost: React.FC<AddPostProps> = ({ onPostAdded }) => {
             <div className="w-full flex justify-end">
                 <div 
                     onClick={onSubmit} 
-                    className={`mt-[15px] px-[15px] py-[5px] border rounded-[10px] ${mainTxt.length > 0 ? 'text-white cursor-pointer' : 'text-white/50'}`}
+                    className={`mt-[15px] px-[15px] py-[5px] border rounded-[10px] ${mainTxt.length > 0 ? 'text-white cursor-pointer' : 'text-white/20'}`}
                 >
                     게시
                 </div>

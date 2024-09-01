@@ -17,9 +17,6 @@ const MyPost: React.FC = () => {
   const [myPosts, setMyPosts] = useState<PostData[]>([]);
   const [loading, setLoading] = useState<boolean>(true); 
   const [error, setError] = useState<string | null>(null); 
-  if (!session) {
-    redirect('/login'); 
-  }
 
   const Email = session?.user?.email ?? '';
 

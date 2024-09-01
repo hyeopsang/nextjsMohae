@@ -23,8 +23,8 @@ const InfoPage = () => {
     };
 
     return (
-        <div className="w-full h-full bg-black flex justify-center items-center">
-            <div className="w-[32%] p-[15px] h-fit rounded-[14px] bg-white/15 border border-white/20 text-white text-[14px]">
+        <div className="w-full h-full bg-white flex justify-center items-center">
+            <div className="w-[32%] p-[15px] h-fit rounded-[14px] bg-white/15 border border-black/20 text-black text-[14px]">
                 <p>프로필 사진</p>
                 <div 
                     className="w-[30%] aspect-square rounded-full bg-white mx-auto my-[15px] overflow-hidden cursor-pointer"
@@ -46,14 +46,14 @@ const InfoPage = () => {
                 <p>이름</p>
                 <input 
                     type="text" 
-                    className="w-full bg-transparent focus:outline-none border-b border-white/20 py-[10px] mb-[15px]" 
+                    className="w-full bg-transparent focus:outline-none border-b border-black/20 py-[10px] mb-[15px]" 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
                 <p>자기소개</p>
                 <input 
                     type="text" 
-                    className="w-full bg-transparent focus:outline-none border-b border-white/20 py-[10px] mb-[30px]" 
+                    className="w-full bg-transparent focus:outline-none border-b border-black/20 py-[10px] mb-[30px]" 
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
                 />

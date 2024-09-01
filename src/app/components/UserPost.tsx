@@ -66,9 +66,9 @@ const UserPost: React.FC<PostProps> = ({ e }) => {
         return () => window.removeEventListener('resize', checkTextOverflow);
     }, [isExpanded]);
     return (
-        <div className={`w-full h-fit px-[25px] py-[15px] border-b-2 text-white bg-white/15 border-white/5`}>
+        <div className={`w-full h-fit px-[25px] py-[15px] border-b-2 text-black bg-white/15 border-black/5`}>
             <div className="flex items-center justify-between">
-                <p className={`text-white cursor-pointer`}>{e.email}</p>
+                <p className={`text-black cursor-pointer`}>{e.email}</p>
                 <button className='hover:underline' onClick={() => handleClickDelete()}>삭제</button>
             </div>
             <div 
@@ -91,16 +91,16 @@ const UserPost: React.FC<PostProps> = ({ e }) => {
             {
                 e.tags.map((tag, id) => {
                     return (
-                        <p key={id} className={`px-[15px] py-[5px] rounded-full cursor-pointer hover:underline text-white bg-white/30`}>
+                        <p key={id} className={`px-[15px] py-[5px] rounded-full cursor-pointer hover:underline text-black bg-black/5`}>
                             # {tag}
                         </p>
                     );
                 })
             }
             </div>
-            <div className="w-full h-[30px] border-white/15 flex justify-end items-center">
+            <div className="w-full h-[30px] border-black/15 flex justify-end items-center">
                 <button className="w-fit h-fit" onClick={()=> setShowComment(!showComment)}>
-                    <img className="w-[30px] h-auto font-[300] text-white bg-transparent" src="./commentsIcon.svg" alt='Comments Icon' />
+                    <img className="w-[30px] h-auto font-[300] text-black bg-transparent" src="./commentsIcon.svg" alt='Comments Icon' />
                 </button>
             </div>
             <div className={

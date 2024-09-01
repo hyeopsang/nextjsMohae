@@ -14,14 +14,9 @@ interface PostData {
 }
 
 const PostList: React.FC = () => {
-    const { data: session, status } = useSession();
     const [postList, setPostList] = useState<PostData[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [filteredPosts, setFilteredPosts] = useState<PostData[]>([]);
-
-    if (!session) {
-        redirect('/login'); 
-      }
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -50,8 +45,8 @@ const PostList: React.FC = () => {
     return (
         <div>
             <Search onSearch={setSearchQuery} />
-            <div className="w-[35%] h-fit overflow-hidden bg-transparent rounded-t-[25px] mx-auto border-2 border-white/15 z-50 text-white">
-                <div className="bg-black/10 w-full h-fit">
+            <div className="w-[35%] h-fit overflow-hidden bg-transparent rounded-t-[25px] mx-auto border-2 border-black/15 z-50 text-black">
+                <div className="bg-white/10 w-full h-fit">
                     {filteredPosts.length > 0 ? (
                         filteredPosts.map((post, index) => (
                             <Post key={index} e={post} />

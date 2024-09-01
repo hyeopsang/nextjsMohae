@@ -41,7 +41,7 @@ const Post: React.FC<PostProps> = ({ e }) => {
     }, [isExpanded]);
 
     return (
-        <div className={`h-fit px-[25px] py-[15px] border-b-2 text-white bg-white/15 border-white/5`}>
+        <div className={`h-fit px-[25px] py-[15px] border-b-2 text-black bg-white/15 border-black/5`}>
             <div className="flex items-center">
                 <p className={`cursor-pointer`}>{e.email}</p>
             </div>
@@ -63,14 +63,14 @@ const Post: React.FC<PostProps> = ({ e }) => {
             )}
             <div className='w-full px-[5px] flex flex-wrap gap-2 pb-[15px]'>
                 {e.tags.map((tag, id) => (
-                    <p key={id} className={`px-[15px] py-[5px] rounded-full cursor-pointer hover:underline text-white bg-white/15`}>
+                    <p key={id} className={`px-[15px] py-[5px] rounded-full cursor-pointer hover:underline text-black bg-white/15`}>
                         # {tag}
                     </p>
                 ))}
             </div>
-            <div className="w-full h-[30px] border-white/15 flex justify-end items-center">
+            <div className="w-full h-[30px] border-black/15 flex justify-end items-center">
                 <button className="w-fit h-fit" onClick={()=> setShowComment(!showComment)}>
-                    <img className="w-[30px] h-auto font-[300] text-white bg-transparent" src="./commentsIcon.svg" alt="Comments Icon"/>
+                    <img className="w-[30px] h-auto font-[300] text-black bg-transparent" src="./commentsIcon.svg" alt="Comments Icon"/>
                 </button>
             </div>
             <div className={
