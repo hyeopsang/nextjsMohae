@@ -3,11 +3,8 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 import AddPost from './components/AddPost';
 
 interface MyContextType {
-  theme: 'light' | 'dark';
-  setTheme: (theme: 'light' | 'dark') => void;
   addPost: boolean;
   setAddPost: React.Dispatch<React.SetStateAction<boolean>>;
-  toggleTheme: () => void;
   onChangeAddPost: () => void;
 }
 
@@ -18,19 +15,14 @@ interface ThemeProviderProps {
 const ThemeContext = createContext<MyContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [addPost, setAddPost] = useState<boolean>(false);
-
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
-  };
 
   const onChangeAddPost = () => {
     setAddPost(!addPost);
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, addPost, setAddPost, toggleTheme, onChangeAddPost }}>
+    <ThemeContext.Provider value={{ addPost, setAddPost, onChangeAddPost }}>
       {children}
       {
         addPost === false

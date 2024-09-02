@@ -5,7 +5,6 @@ import Image from "next/image";
 
 const LoginPage: React.FC = () => {
     const { data: session } = useSession();
-    const userId = session?.user?.email ?? '';
 
     return (
         <div className="w-full flex justify-center items-center bg-white">

@@ -1,16 +1,9 @@
 import { useSession } from "next-auth/react";
-import { useState } from "react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
-interface UserData {
-    email: string;
-    profilePicture: string;
-}
-
 const UserInfo = () => {
     const { data: session } = useSession();
-    const [userData, setUserData] = useState<UserData | null>(null);
     const userId = session?.user?.email ?? '';
     const userImage = session?.user?.image ?? '';
 
