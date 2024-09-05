@@ -1,9 +1,10 @@
 import "./globals.css";
-import { ThemeProvider } from './themeContext';
-import AuthProvider from "./authProvider";
+import { ThemeProvider } from './utils/themeContext';
+import AuthProvider from "./utils/authProvider";
 import Sidebar from "./components/Sidebar";
 import React from "react";
 import { Metadata } from 'next';
+import Providers from "./utils/Providers";
 
 
 export const metadata: Metadata = {
@@ -27,7 +28,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Sidebar />
             </div>
             <main className="w-screen h-screen flex">
-              {children}
+              <Providers>
+                {children}
+              </Providers>
             </main>
           </ThemeProvider>  
         </AuthProvider>

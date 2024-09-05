@@ -1,8 +1,15 @@
 import { NextResponse } from "next/server";
-import { ResultSetHeader } from 'mysql2'; 
+import { ResultSetHeader, RowDataPacket } from 'mysql2'; 
 import pool from "../../libs/db";
 
-export async function GET(request: Request) {
+interface PostRow extends RowDataPacket {
+    id: number;
+    email: string;
+    text: string;
+    tags: string;
+  }
+
+  export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
         const email = searchParams.get('email');

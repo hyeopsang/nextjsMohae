@@ -1,6 +1,7 @@
 "use client";
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import AddPost from './components/AddPost';
+import AddPost from '@/app/components/AddPost';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 interface MyContextType {
   addPost: boolean;
@@ -11,6 +12,7 @@ interface MyContextType {
 interface ThemeProviderProps {
   children: ReactNode;
 }
+const queryClient = new QueryClient()
 
 const ThemeContext = createContext<MyContextType | undefined>(undefined);
 
@@ -27,7 +29,11 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       {
         addPost === false
         ? ''
-        : <div className='fixed w-screen h-screen flex justify-center items-center bg-white/70'><AddPost/></div>
+        :     
+        <QueryClientProvider client={queryClient}>
+          <div className='fixed w-screen h-screen flex justify-center items-center bg-white/70'><AddPost/></div>
+        </QueryClientProvider>
+                
       }
     </ThemeContext.Provider>
   );

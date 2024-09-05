@@ -1,10 +1,10 @@
 import React from 'react';
-import PostList from './components/PostList';
+import HydratedPosts from "./components/HydratedPosts";
 
-export default async function Home() {
+export default function Home() {
   return (
     <div className="w-full bg-white overflow-y-scroll">
-    <PostList  />
-  </div>
+      <HydratedPosts />
+    </div>
   );
 }

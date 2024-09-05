@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import UserPost from './UserPost';
 import UserInfo from './UserInfo';
-import { redirect } from 'next/navigation';
 interface PostData {
   id: number
   text: string;

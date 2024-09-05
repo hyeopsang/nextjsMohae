@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import { useSession } from "next-auth/react";
 import axios from "axios";
-import { redirect } from "next/navigation";
 
 interface CommentData {
     id: number

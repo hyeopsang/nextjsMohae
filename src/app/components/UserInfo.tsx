@@ -7,10 +7,6 @@ const UserInfo = () => {
     const userId = session?.user?.email ?? '';
     const userImage = session?.user?.image ?? '';
 
-    if (!session) {
-        redirect('/login'); 
-      }
-
     return (
         <div className={`w-full h-fit pt-[5px] flex flex-wrap bg-white/10 relative`}>
             <div className={`w-full border-b pb-[30px] px-[30px] border-black/15`}>
