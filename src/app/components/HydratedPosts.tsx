@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-query";
 import React from 'react';
 import PostList from './PostList';
-import getPosts from "../posts/getPost";
+import getPosts from "./getPost";
 
 export default async function Home() {
   const queryClient = new QueryClient();

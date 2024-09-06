@@ -6,7 +6,6 @@ import React from "react";
 import { Metadata } from 'next';
 import Providers from "./utils/Providers";
 
-
 export const metadata: Metadata = {
   title: "Mohae",
   description: "Community",
