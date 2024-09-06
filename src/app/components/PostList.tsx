@@ -170,9 +170,6 @@ const PostList: React.FC = () => {
     <div>
       {addPost && <div className='fixed w-screen h-screen flex justify-center items-center bg-white/70'><AddPost/></div>}
       <Search onSearch={setSearchQuery} />
-      <button className='w-[35%] h-2' onClick={() => refetch()}>새로고침</button>
-      <button className='w-[35%] h-2' onClick={onChangeAddPost}>추가
-      </button>
       <div className="w-[35%] h-fit overflow-hidden bg-transparent rounded-t-[25px] mx-auto border-2 border-black/15 z-50 text-black">
         <div className="bg-white/10 w-full h-fit">
           {filteredPosts.length > 0 ? (
