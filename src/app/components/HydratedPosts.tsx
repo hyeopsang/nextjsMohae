@@ -7,9 +7,9 @@ import React from 'react';
 import PostList from './PostList';
 import getPosts from "./getPost";
 
-export default async function Home() {
-  const queryClient = new QueryClient();
+const queryClient = new QueryClient();
 
+export default async function Home() {
   await queryClient.prefetchQuery({
     queryKey: ["posts"],
     queryFn: getPosts,

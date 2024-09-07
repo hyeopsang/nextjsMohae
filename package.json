@@ -19,6 +19,7 @@
     "axios": "^1.7.6",
     "bcryptjs": "^2.4.3",
     "formidable": "^3.5.1",
+    "lodash": "^4.17.21",
     "mongoose": "^8.5.4",
     "mysql": "^2.18.1",
     "mysql2": "^3.11.0",
@@ -26,11 +27,13 @@
     "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18",
-    "react-intersection-observer": "^9.13.1"
+    "react-intersection-observer": "^9.13.1",
+    "sweetalert2": "^11.13.2"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/formidable": "^3.4.5",
+    "@types/lodash": "^4.17.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

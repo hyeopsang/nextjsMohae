@@ -15,8 +15,8 @@ const Sidebar:React.FC = () => {
   const getLinkStyle = (path: string) => {
     const isActive = pathname === path;
     const baseContainer = "w-fit h-[52px] rounded-[12px] overflow-hidden cursor-pointer relative group-hover:justify-between flex justify-center items-center";
-    const activeContainer = `${baseContainer} hover:bg-black/15 text-black`;
-    const inactiveContainer = `${baseContainer} hover:bg-black/15`;
+    const activeContainer = `${baseContainer} hover:bg-black/15 text-black transition duration-200`;
+    const inactiveContainer = `${baseContainer} hover:bg-black/15 transition duration-200`;
 
     const container = isActive ? activeContainer : inactiveContainer;
 
@@ -31,7 +31,7 @@ const Sidebar:React.FC = () => {
   };
 
   return (
-    <div className={`w-fit h-full pt-[8px] pb-[20px] px-[12px] border-r group bg-white border-black/15 flex flex-col justify-center`}>
+    <div className={`w-fit h-full pt-[8px] pb-[20px] px-[12px] group bg-white flex flex-col justify-center`}>
       <div className="w-fit grow space-y-[10px] text-[16px] font-[800] flex flex-col justify-center">
         <Link href="/">
           <div className={getLinkStyle('/').container}>
@@ -46,7 +46,7 @@ const Sidebar:React.FC = () => {
         >
             <p 
                 className={`material-symbols-outlined px-[11px] text-black
-                            ${addPost === true ? 'rotate-45 transition duration-[300ms]' : 'transition duration-[300ms]'}
+                            ${addPost === true ? 'rotate-45 transition duration-200' : 'transition duration-200'}
                             `} 
                 style={{ fontVariationSettings: "'FILL' 0"}}
                 >
@@ -70,7 +70,7 @@ const Sidebar:React.FC = () => {
         </Link>
       </div>
       <button 
-        className="w-full h-[52px] flex justify-center items-center text-black py-[10px] hover:bg-black/15 rounded-[12px] overflow-hidden" 
+        className="w-full h-[52px] flex justify-center items-center text-black py-[10px] hover:bg-black/15 transition duration-200 rounded-[12px] overflow-hidden" 
         onClick={() => {
           if (session) {
             signOut({ callbackUrl: "/" });

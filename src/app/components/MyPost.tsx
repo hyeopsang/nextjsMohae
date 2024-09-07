@@ -1,55 +1,43 @@
 "use client";
 import { useSession } from 'next-auth/react';
-import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import UserPost from './UserPost';
 import UserInfo from './UserInfo';
+
 interface PostData {
-  id: number
+  id: number;
   text: string;
   tags: string[];
   email: string;
 }
 
+const fetchPosts = async (email: string) => {
+  if (!email) return [];
+  const response = await axios.get(`/api/posts?email=${encodeURIComponent(email)}`);
+  return response.data;
+};
+
 const MyPost: React.FC = () => {
-  const { data: session, status } = useSession();
-  const [myPosts, setMyPosts] = useState<PostData[]>([]);
-  const [loading, setLoading] = useState<boolean>(true); 
-  const [error, setError] = useState<string | null>(null); 
+  const { data: session } = useSession();
+  const email = session?.user?.email ?? '';
 
-  const Email = session?.user?.email ?? '';
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      if (!Email) return; 
-      
-      setLoading(true); 
-      setError(null); 
-      
-      try {
-        const response = await axios.get(`/api/posts?email=${encodeURIComponent(Email)}`);
-        setMyPosts(response.data);
-      } catch (error) {
-        console.error('Failed to fetch posts:', error);
-        setError('Failed to fetch posts'); // 에러 상태 업데이트
-      } finally {
-        setLoading(false); 
-      }
-    };
-
-    fetchPosts();
-  }, [Email]);
+  const { data: myPosts, isLoading, error } = useQuery({
+    queryKey: ['myPosts', email],
+    queryFn: () => fetchPosts(email),
+    enabled: !!email,
+  });
 
   return (
     <div>
-      <UserInfo/>
-      {loading ? (
-        <p>Loading...</p> 
+      <UserInfo />
+      {isLoading ? (
+        <p>Loading...</p>
       ) : error ? (
-        <p>{error}</p>
-      ) : myPosts.length > 0 ? (
-        myPosts.map((post, index) => (
-          <UserPost key={index} e={post} />
+        <p>Error fetching posts</p>
+      ) : myPosts && myPosts.length > 0 ? (
+        myPosts.map((post: PostData) => (
+          <UserPost key={post.id} e={post} />
         ))
       ) : (
         <p>No posts available</p>
@@ -59,5 +47,3 @@ const MyPost: React.FC = () => {
 };
 
 export default MyPost;
-
-

@@ -22,16 +22,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="w-screen h-screen flex">
         <AuthProvider>
+        <Providers>
+
           <ThemeProvider>
             <div className="w-fit h-full fixed top-0 left-0 z-50">
               <Sidebar />
             </div>
             <main className="w-screen h-screen flex">
-              <Providers>
                 {children}
-              </Providers>
             </main>
-          </ThemeProvider>  
+          </ThemeProvider> 
+          </Providers>
+ 
         </AuthProvider>
       </body>
     </html>

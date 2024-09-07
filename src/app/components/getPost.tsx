@@ -1,14 +1,19 @@
 import axios from "axios";
 
-interface PostType {
+interface PostData {
   id: number;
   text: string;
   tags: string[];
   email: string;
 }
 
-const getPosts = async (): Promise<PostType[]> => {
-  const response = await axios.get<PostType[]>('/api/posts');
+interface PostsResponse {
+  filter(arg0: (post: PostData) => boolean): any;
+  posts: PostData[];
+}
+
+const getPosts = async (): Promise<PostsResponse> => {
+  const response = await axios.get<PostsResponse>('/api/posts');
   return response.data;
 };
 

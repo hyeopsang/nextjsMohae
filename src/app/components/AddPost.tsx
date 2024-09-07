@@ -1,13 +1,10 @@
-'use client'
-
-import { useQuery, useQueryClient, useMutation, useInfiniteQuery } from '@tanstack/react-query';
-import React, { useState, useEffect, useRef } from 'react';
-import Post from './Post';
-import Search from './Search';
-import axios from 'axios';
-import { useSession } from "next-auth/react";
+"use client"
+import React, { useState, useEffect } from "react";
 import { useTheme } from '../utils/themeContext';
-
+import { useSession } from "next-auth/react";
+import axios from "axios";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import getPosts from "./getPost";
 
 interface AddPostProps {
   onPostAdded?: () => void; 
@@ -19,14 +16,14 @@ interface PostData {
     tags: string[];
     email: string;
   }
-export const AddPost: React.FC<AddPostProps> = () => {
+const AddPost: React.FC<AddPostProps> = ({ onPostAdded }) => {
     const { data: session } = useSession();
     const userId = session?.user?.email ?? '';
+    const { addPost, setAddPost } = useTheme(); 
     const [tags, setTags] = useState<string[]>([]);
     const [tagTxt, setTagTxt] = useState<string>('');
     const [mainTxt, setMainTxt] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
-    const { setAddPost } = useTheme();
     
     const queryClient = useQueryClient();
     const { refetch } = useQuery({ queryKey: ['posts'] });
@@ -36,10 +33,11 @@ export const AddPost: React.FC<AddPostProps> = () => {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['posts'] });
           refetch()
+          if (onPostAdded) onPostAdded();
+          setAddPost(false);
           setMainTxt('');
           setTags([]);
           setTagTxt('');
-          setAddPost(false);
         },
         onError: (error) => {
           console.error("Failed to submit post:", error);
@@ -48,34 +46,29 @@ export const AddPost: React.FC<AddPostProps> = () => {
       });
       
       const onSubmit = async (e: React.FormEvent) => {
-        if(!session) {
-          alert("로그인이 필요합니다!");
-          return
-        }
         e.preventDefault();
         try {
           mutation.mutate({ email: userId, text: mainTxt, tags });
+          // refetch 호출 제거
         } catch (error) {
           console.log(error);
         }
       };
 
-      
-
     const handleChangeTxt = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setMainTxt(e.target.value);
-    }
+    };
 
     const handleClickAddTag = () => {
         if (tagTxt.trim() !== '' && tags.length < 5) {
             setTags([...tags, tagTxt]);
             setTagTxt('');
-        }
-    }
+        };
+    };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTagTxt(e.target.value);
-    }
+    };
 
     return (
         <div className="w-[420px] h-fit p-[20px] border border-black/15 bg-[#222] rounded-[15px] flex flex-wrap items-end">
@@ -135,89 +128,4 @@ export const AddPost: React.FC<AddPostProps> = () => {
     );
 }
 
-
-
-const fetchPosts = async ({ pageParam = 0 }) => {
-  const limit = 5;
-  const response = await axios.get(`/api/posts?limit=${limit}&offset=${pageParam * limit}`);
-  return response.data;
-};
-
-const PostList: React.FC = () => {
-  const [searchQuery, setSearchQuery] = React.useState<string>('');
-
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    status,
-  } = useInfiniteQuery({
-    queryKey: ['posts'],
-    queryFn: fetchPosts,
-    getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length === 5 ? allPages.length : undefined;
-    },
-    initialPageParam: 0,
-  });
-
-  const observerTarget = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 1.0 }
-    );
-
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
-    }
-
-    return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current);
-      }
-    };
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
-
-  const filteredPosts = React.useMemo(() => {
-    if (!data) return [];
-    const lowercasedQuery = searchQuery.toLowerCase();
-    return data.pages.flatMap(page => 
-      page.filter((post: PostData) =>
-        post.text.toLowerCase().includes(lowercasedQuery) ||
-        post.tags.some(tag => tag.toLowerCase().includes(lowercasedQuery)) ||
-        post.email.toLowerCase().includes(lowercasedQuery)
-      )
-    ).reverse();
-  }, [searchQuery, data]);
-
-  if (status === 'pending') return <p>Loading...</p>;
-  if (status === 'error') return <p>Error: {(error as Error).message}</p>;
-
-  return (
-    <div>
-      <Search onSearch={setSearchQuery} />
-      <div className="w-[35%] h-fit overflow-hidden bg-transparent rounded-t-[25px] mx-auto border-2 border-black/15 z-50 text-black">
-        <div className="bg-white/10 w-full h-fit">
-          {filteredPosts.length > 0 ? (
-            filteredPosts.map((post: PostData) => (
-              <Post key={post.id} e={post} />
-            ))
-          ) : (
-            <p className='p-[15px]'>게시물이 없어요 ㅠㅠ</p>
-          )}
-        </div>
-      </div>
-      <div ref={observerTarget}></div>
-      {isFetchingNextPage && <p>Loading more...</p>}
-    </div>
-  );
-};
-
-export default PostList;
+export default AddPost;

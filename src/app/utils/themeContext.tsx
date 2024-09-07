@@ -1,6 +1,6 @@
 "use client";
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AddPost } from "../components/PostList";
 
 interface MyContextType {
   addPost: boolean;
@@ -11,7 +11,6 @@ interface MyContextType {
 interface ThemeProviderProps {
   children: ReactNode;
 }
-const queryClient = new QueryClient()
 
 const ThemeContext = createContext<MyContextType | undefined>(undefined);
 
@@ -23,11 +22,27 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   };
 
   return (
-    <QueryClientProvider client={queryClient}>
       <ThemeContext.Provider value={{ addPost, setAddPost, onChangeAddPost }}>
         {children}
+        <div 
+          className={`
+            fixed inset-0 bg-black bg-opacity-70 
+            flex justify-center items-center
+            transition-opacity duration-300 ease-in-out
+            ${addPost ? 'opacity-100 visible' : 'opacity-0 invisible'}
+          `}
+        >
+          <div 
+            className={`
+              rounded-lg p-6 bg-transparent
+              transform transition-all duration-300 ease-in-out
+              ${addPost ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}
+            `}
+          >
+            {addPost && <AddPost />}
+          </div>
+        </div>
       </ThemeContext.Provider>
-    </QueryClientProvider>
   );
 };
 

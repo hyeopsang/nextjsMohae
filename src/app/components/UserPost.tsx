@@ -98,9 +98,12 @@ const UserPost: React.FC<PostProps> = ({ e }) => {
                 })
             }
             </div>
-            <div className="w-full h-[30px] border-black/15 flex justify-end items-center">
-                <button className="w-fit h-fit" onClick={()=> setShowComment(!showComment)}>
-                    <img className="w-[30px] h-auto font-[300] text-black bg-transparent" src="./commentsIcon.svg" alt='Comments Icon' />
+            <div className="w-full h-[30px] border-black/15 flex items-center">
+                <button 
+                    className="w-fit h-fit p-[5px] hover:bg-black/5 rounded-full transition-transform duration-100 active:scale-90 focus:outline-none" 
+                    onClick={()=> setShowComment(!showComment)}
+                >
+                    <img className="w-[20px] h-auto font-[300] text-black bg-transparent" src="./commentsIcon.svg" alt='Comments Icon' />
                 </button>
             </div>
             <div className={

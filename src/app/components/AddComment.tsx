@@ -15,7 +15,7 @@ const AddComment:React.FC<PostIdProps> = ({postId}) => {
 
     const onChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
         setComment(e.target.value);
-    }
+    };
 
     const onSubmit = async () => {
         try {
@@ -35,7 +35,7 @@ const AddComment:React.FC<PostIdProps> = ({postId}) => {
                 console.error("Failed to submit comment:", error);
                 setError("Failed to submit comment. Please try again.");
             }
-        }
+        };
     }
     
     return (
