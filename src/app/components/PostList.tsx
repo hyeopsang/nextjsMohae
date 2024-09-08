@@ -15,124 +15,104 @@ interface AddPostProps {
 
 interface PostData {
     id: number;
-    text: string;
-    tags: string[];
-    email: string;
-  }
+    title: string;
+    content: string;
+    user_id: string;
+}
+
 export const AddPost: React.FC<AddPostProps> = () => {
-    const { data: session } = useSession();
-    const userId = session?.user?.email ?? '';
-    const [tags, setTags] = useState<string[]>([]);
-    const [tagTxt, setTagTxt] = useState<string>('');
-    const [mainTxt, setMainTxt] = useState<string>('');
-    const [error, setError] = useState<string | null>(null);
-    const { setAddPost } = useTheme();
+  const { data: session } = useSession();
+  const userId = session?.user?.email ?? '';
+  const [title, setTitle] = useState<string>('');
+  const [content, setContent] = useState<string>('');  // mainTxt를 content로 변경
+  const [error, setError] = useState<string | null>(null);
+  const { setAddPost } = useTheme();
+  
+  const queryClient = useQueryClient();
+  const { refetch } = useQuery({ queryKey: ['posts'] });
+
+  const mutation = useMutation<PostData, Error, Omit<PostData, 'id'>>({
+    mutationFn: async (newPost) => {
+      console.log('Sending data:', newPost);  // 전송되는 데이터 로깅
+      const response = await axios.post<PostData>('/api/posts', newPost);
+      console.log('Server response:', response.data);  // 서버 응답 로깅
+      return response.data;
+    },
+    onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['posts'] });
+        refetch()
+        setTitle('');
+        setContent('');  // mainTxt를 content로 변경
+        setAddPost(false);
+    },
+    onError: (error) => {
+        console.error("Failed to submit post:", error);
+        setError("Failed to submit post. Please try again.");
+    }
+  });
     
-    const queryClient = useQueryClient();
-    const { refetch } = useQuery({ queryKey: ['posts'] });
+  const onSubmit = async (e: React.FormEvent) => {
+      if(!session) {
+        alert("로그인이 필요합니다!");
+        return
+      }
+      e.preventDefault();
+      try {
+        mutation.mutate({ user_id: userId, title: title, content: content });  // mainTxt를 content로 변경
+      } catch (error) {
+        console.log(error);
+      }
+  };
 
-    const mutation = useMutation<PostData, Error, Omit<PostData, 'id'>>({
-        mutationFn: async (newPost) => await axios.post<PostData>('/api/posts', newPost).then(res => res.data),
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['posts'] });
-          refetch()
-          setMainTxt('');
-          setTags([]);
-          setTagTxt('');
-          setAddPost(false);
-        },
-        onError: (error) => {
-          console.error("Failed to submit post:", error);
-          setError("Failed to submit post. Please try again.");
-        }
-      });
-      
-      const onSubmit = async (e: React.FormEvent) => {
-        if(!session) {
-          alert("로그인이 필요합니다!");
-          return
-        }
-        e.preventDefault();
-        try {
-          mutation.mutate({ email: userId, text: mainTxt, tags });
-        } catch (error) {
-          console.log(error);
-        }
-      };
+  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setTitle(e.target.value);
+  }
 
-      
+  const handleChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setContent(e.target.value);  // mainTxt를 content로 변경, 함수 이름도 변경
+  }
 
-    const handleChangeTxt = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setMainTxt(e.target.value);
-    }
+  return (
+      <div className="w-[420px] h-fit p-[20px] border border-black/15 bg-[#222] rounded-[15px] flex flex-wrap items-end">
+          <input 
+              type="text"
+              placeholder="제목을 입력해 주세요" 
+              className="w-full bg-transparent p-2 rounded mb-2 text-white" 
+              value={title} 
+              onChange={handleChangeTitle}
+          />
+          <textarea 
+              placeholder="내용을 작성해 주세요" 
+              className="w-full h-[200px] bg-transparent p-2 rounded mb-2 text-white" 
+              value={content}  // mainTxt를 content로 변경
+              onChange={handleChangeContent}  // handleChangeTxt를 handleChangeContent로 변경
+          />
+          <div className="w-full flex justify-end">
+          {mutation.isPending ? (
+                  'Adding post...'
+              ) : (
+                  <>
+                  {mutation.isError ? (
+                      <div>An error occurred: {mutation.error.message}</div>
+                  ) : null}
 
-    const handleClickAddTag = () => {
-        if (tagTxt.trim() !== '' && tags.length < 5) {
-            setTags([...tags, tagTxt]);
-            setTagTxt('');
-        }
-    }
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTagTxt(e.target.value);
-    }
-
-    return (
-        <div className="w-[420px] h-fit p-[20px] border border-black/15 bg-[#222] rounded-[15px] flex flex-wrap items-end">
-            <textarea 
-                placeholder="내용을 작성해 주세요" 
-                className="w-full h-[200px] bg-transparent p-2 rounded mb-2 text-white" 
-                value={mainTxt} 
-                onChange={handleChangeTxt}
-            />
-            <div className="w-full flex">
-                <input
-                    placeholder="태그 최대 5개"
-                    value={tagTxt}
-                    onChange={handleInputChange}
-                    className="flex-grow p-2 border rounded-l text-white bg-transparent"
-                />
-                <button
-                    type="button"
-                    onClick={handleClickAddTag}
-                    className="p-2 bg-white/5 text-white border rounded-r"
-                >
-                    추가
-                </button>
-            </div>
-            <div className='w-full h-fit px-[5px] flex justify-start items-start flex-wrap gap-2 mt-2'>
-                {tags.map((tag, index) => 
-                    <p key={index} className={`px-[15px] py-[5px] rounded-full cursor-pointer hover:underline text-black bg-white`}>
-                        # {tag}
-                    </p>
-                )}
-            </div>
-            <div className="w-full flex justify-end">
-            {mutation.isPending ? (
-                    'Adding todo...'
-                ) : (
-                    <>
-                    {mutation.isError ? (
-                        <div>An error occurred: {mutation.error.message}</div>
-                    ) : null}
-
-                    {mutation.isSuccess ? <div>Todo added!</div> : null}
-                    <form onSubmit={onSubmit}>
-                    <button 
-                        type="submit"
-                        disabled={mainTxt.length === 0}
-                        className={`mt-[15px] px-[15px] py-[5px] border rounded-[10px] ${mainTxt.length > 0 ? 'text-white cursor-pointer' : 'text-white/20'}`}
-                    >
-                        게시
-                    </button>
-                </form>
-                    </>
-                )}
-                
-            </div>
-            {error && <p className="text-red-500 mt-2">{error}</p>}
-        </div>
-    );
+                  {mutation.isSuccess ? <div>Post added!</div> : null}
+                  <form onSubmit={onSubmit}>
+                  <button 
+                      type="submit"
+                      disabled={title.length === 0 || content.length === 0}  // mainTxt를 content로 변경
+                      className={`mt-[15px] px-[15px] py-[5px] border rounded-[10px] ${title.length > 0 && content.length > 0 ? 'text-white cursor-pointer' : 'text-white/20'}`}
+                  >
+                      게시
+                  </button>
+              </form>
+                  </>
+              )}
+              
+          </div>
+          {error && <p className="text-red-500 mt-2">{error}</p>}
+      </div>
+  );
 }
 
 
@@ -190,9 +170,9 @@ const PostList: React.FC = () => {
     const lowercasedQuery = searchQuery.toLowerCase();
     return data.pages.flatMap(page => 
       page.filter((post: PostData) =>
-        post.text.toLowerCase().includes(lowercasedQuery) ||
-        post.tags.some(tag => tag.toLowerCase().includes(lowercasedQuery)) ||
-        post.email.toLowerCase().includes(lowercasedQuery)
+        post.content.toLowerCase().includes(lowercasedQuery) ||
+        post.title.toLowerCase().includes(lowercasedQuery) ||
+        post.user_id.toLowerCase().includes(lowercasedQuery)
       )
     ).reverse();
   }, [searchQuery, data]);

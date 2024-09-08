@@ -6,9 +6,9 @@ import Image from "next/image";
 
 interface PostData {
     id: number;
-    text: string;
-    tags: string[];
-    email: string;
+    title: string;
+    content: string;
+    user_id: string;
     // comments?: CommentData[]; // 필요한 경우 추가
 }
 
@@ -48,13 +48,14 @@ const Post: React.FC<PostProps> = ({ e }) => {
     return (
         <div className={`h-fit px-[25px] py-[15px] border-b-2 text-black bg-white/15 border-black/5`}>
             <div className="flex items-center">
-                <p className={`cursor-pointer`}>{e?.email}</p>
+                <p className="cursor-default">{e?.title}</p>
+                <p className={`cursor-pointer`}>{e?.user_id}</p>
             </div>
             <div
                 ref={textRef}
                 className={`${isExpanded ? '' : 'line-clamp-5'} py-[10px]`}
             >
-                {e.text}
+                {e.content}
             </div>
             {showButton && (
                 <button 
@@ -64,13 +65,6 @@ const Post: React.FC<PostProps> = ({ e }) => {
                     {isExpanded ? "줄이기" : "...더보기"}
                 </button>
             )}
-            <div className='w-full px-[5px] flex flex-wrap gap-2 pb-[15px]'>
-                {e.tags.map((tag, id) => (
-                    <p key={id} className={`px-[15px] py-[5px] rounded-full cursor-pointer hover:underline text-black bg-black/5`}>
-                        # {tag}
-                    </p>
-                ))}
-            </div>
             <div className="w-full h-[30px] border-black/15 flex items-center">
                 <button 
                     className="w-fit h-fit p-[5px] hover:bg-black/5 rounded-full transition-transform duration-100 active:scale-90 focus:outline-none" 
