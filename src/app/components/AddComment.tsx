@@ -4,7 +4,7 @@ import axios from "axios";
 
 interface PostIdProps {
     postId: number;
-  }
+}
 
 const AddComment:React.FC<PostIdProps> = ({postId}) => {
     const { data: session } = useSession();
@@ -20,9 +20,10 @@ const AddComment:React.FC<PostIdProps> = ({postId}) => {
     const onSubmit = async () => {
         try {
             await axios.post('/api/comments', {
-                email: userId,
-                text: comment,
-                postId: postId,
+                user_id: userId,
+                content: comment,
+                post_id: postId,
+                user_nickname: "게스트"
             });
             setComment(''); 
             setError(null); 

@@ -39,10 +39,10 @@ export async function POST(request: Request) {
     try {
         const db = await pool.promise().getConnection();
         
-        const { user_id, title, content } = await request.json();  // text를 content로 변경
+        const { user_id, user_nickname, title, content } = await request.json();  // text를 content로 변경
         
         const query = 'INSERT INTO posts (user_id, title, content) VALUES (?, ?, ?)';  // text를 content로 변경
-        const [result] = await db.execute<ResultSetHeader>(query, [user_id, title, content]);  // text를 content로 변경
+        const [result] = await db.execute<ResultSetHeader>(query, [user_id, user_nickname, title, content]);  // text를 content로 변경
         
         db.release();
         

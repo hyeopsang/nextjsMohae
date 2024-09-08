@@ -29,16 +29,16 @@ export async function GET(request: Request) {
 }
 export async function POST(request: Request) {
     try {
-        const { postId, email, text } = await request.json();
+        const { post_id, user_id, content, user_nickname } = await request.json();
 
         // 필수 데이터가 제공되지 않은 경우 에러 응답
-        if (!postId || !email || !text) {
+        if (!post_id || !user_id || !content) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
         const db = await pool.promise().getConnection();
-        const query = 'INSERT INTO comments (post_id, email, text, created_at) VALUES (?, ?, ?, ?)';
-        const values = [postId, email, text, new Date()]; 
+        const query = 'INSERT INTO comments (post_id, user_id, content, created_at) VALUES (?, ?, ?, ?)';
+        const values = [post_id, user_id, content, user_nickname, new Date()]; 
 
         await db.execute(query, values);
         db.release();

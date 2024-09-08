@@ -4,8 +4,9 @@ import axios from "axios";
 import Comments from "./Comments";
 interface CommentData {
     id: number;
-    text: string;
-    email: string;
+    content: string;
+    user_id: string;
+    user_nickname: string;
 }
 
 interface PostIdProps {

@@ -6,10 +6,11 @@ import Image from 'next/image';
 import React, {useState, useRef, useEffect} from 'react';
 
 interface PostData {
-    id: number
-    text: string;
-    tags: string[];
-    email: string;
+    user_id: number;
+    id: number;
+    title: string;
+    content: string;
+    user_nickname: string;
 }
 
 interface PostProps {
@@ -28,12 +29,12 @@ const UserPost: React.FC<PostProps> = ({ e }) => {
         setIsExpanded(!isExpanded);
     }
     const handleClickDelete = async() => {
-        if (!e.id) return; 
+        if (!e.user_id) return; 
         setLoading(true); 
         setError(null); 
         
         try {
-            const response = await axios.delete(`/api/posts?id=${e.id}`);
+            const response = await axios.delete(`/api/posts?id=${e.user_id}`);
             location.reload();
         } catch (error) {
             console.error('Failed to fetch posts:', error);
@@ -68,14 +69,15 @@ const UserPost: React.FC<PostProps> = ({ e }) => {
     return (
         <div className={`w-full h-fit px-[25px] py-[15px] border-b-2 text-black bg-white/15 border-black/5`}>
             <div className="flex items-center justify-between">
-                <p className={`text-black cursor-pointer`}>{e.email}</p>
+                <p className={`text-black cursor-pointer`}>{e.user_nickname}</p>
                 <button className='hover:underline' onClick={() => handleClickDelete()}>삭제</button>
             </div>
+            <p className={`text-black cursor-pointer`}>{e.title}</p>
             <div 
                 ref={textRef}
                 className={`${isExpanded ? '' : 'line-clamp-5'} py-[10px]`}
             >
-                {e.text}
+                {e.content}
             </div>
             {showButton && !isExpanded && (
                 <button onClick={handleClickExpand}>
@@ -87,17 +89,6 @@ const UserPost: React.FC<PostProps> = ({ e }) => {
                     줄이기
                 </button>
             )}
-            <div className='w-full px-[5px] flex flex-wrap gap-2 pb-[15px]'>
-            {
-                e.tags.map((tag, id) => {
-                    return (
-                        <p key={id} className={`px-[15px] py-[5px] rounded-full cursor-pointer hover:underline text-black bg-black/5`}>
-                            # {tag}
-                        </p>
-                    );
-                })
-            }
-            </div>
             <div className="w-full h-[30px] border-black/15 flex items-center">
                 <button 
                     className="w-fit h-fit p-[5px] hover:bg-black/5 rounded-full transition-transform duration-100 active:scale-90 focus:outline-none" 

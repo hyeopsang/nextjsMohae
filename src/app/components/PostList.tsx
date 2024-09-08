@@ -17,6 +17,7 @@ interface PostData {
     id: number;
     title: string;
     content: string;
+    user_nickname: string;
     user_id: string;
 }
 
@@ -58,7 +59,7 @@ export const AddPost: React.FC<AddPostProps> = () => {
       }
       e.preventDefault();
       try {
-        mutation.mutate({ user_id: userId, title: title, content: content });  // mainTxt를 content로 변경
+        mutation.mutate({ user_id: userId, title: title, content: content , user_nickname: "게스트"});  // mainTxt를 content로 변경
       } catch (error) {
         console.log(error);
       }

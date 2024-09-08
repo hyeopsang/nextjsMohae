@@ -4,8 +4,9 @@ import axios from "axios";
 
 interface CommentData {
     id: number
-    text: string;
-    email: string;
+    content: string;
+    user_id: string;
+    user_nickname: string;
 }
 interface CommentProps {
     e: CommentData;
@@ -41,14 +42,14 @@ const Comments:React.FC<CommentProps> = ({e}) => {
     return (
         <div className="w-full my-[5px] py-[15px] border-b border-black/15">
             <div className="w-full flex justify-between">
-            <p>{e.email}</p>
+            <p>{e.user_nickname}</p>
             {
-                userId === e.email ?
+                userId === e.user_id ?
                 <button onClick={() => handleClickDelete()}>삭제</button>
                 : undefined
             }
             </div>
-            <p>{e.text}</p>
+            <p>{e.content}</p>
         </div>
     )
 }

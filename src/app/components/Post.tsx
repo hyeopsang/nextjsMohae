@@ -9,6 +9,7 @@ interface PostData {
     title: string;
     content: string;
     user_id: string;
+    user_nickname: string;
     // comments?: CommentData[]; // 필요한 경우 추가
 }
 
@@ -47,10 +48,10 @@ const Post: React.FC<PostProps> = ({ e }) => {
 
     return (
         <div className={`h-fit px-[25px] py-[15px] border-b-2 text-black bg-white/15 border-black/5`}>
-            <div className="flex items-center">
-                <p className="cursor-default">{e?.title}</p>
-                <p className={`cursor-pointer`}>{e?.user_id}</p>
+            <div className="flex justify-between items-center">
+                <p className={`cursor-pointer`}>{e?.user_nickname}</p>
             </div>
+            <p className="cursor-default">{e?.title}</p>
             <div
                 ref={textRef}
                 className={`${isExpanded ? '' : 'line-clamp-5'} py-[10px]`}

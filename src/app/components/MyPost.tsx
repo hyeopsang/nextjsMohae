@@ -6,10 +6,11 @@ import UserPost from './UserPost';
 import UserInfo from './UserInfo';
 
 interface PostData {
+  user_id: number;
   id: number;
-  text: string;
-  tags: string[];
-  email: string;
+  title: string;
+  content: string;
+  user_nickname: string;
 }
 
 const fetchPosts = async (email: string) => {
