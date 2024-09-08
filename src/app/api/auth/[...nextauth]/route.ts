@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import axios from 'axios';
 
 const handler = NextAuth({
   providers: [
@@ -11,17 +12,20 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         if (!credentials?.user_id || !credentials?.user_password) {
-          console.log("Credentials missing");
           return null;
         }
       
         try {
-          const res = await fetch(`${process.env.NEXTAUTH_URL}/api/userdata?user_id=${credentials.user_id}&user_password=${credentials.user_password}`);
-          const user = await res.json();
+          const response = await axios.get(`${process.env.NEXTAUTH_URL}/api/userdata`, {
+            params: {
+              user_id: credentials.user_id,
+              user_password: credentials.user_password
+            }
+          });
+
+          const user = response.data;
       
-          console.log("API response:", user); 
-      
-          if (res.ok && user && !user.error) {
+          if (response.status === 200 && user && !user.error) {
             return user;
           } else {
             console.log("Authentication failed:", user.error || "Unknown error");

@@ -15,15 +15,15 @@ function LoginForm() {
     e.preventDefault();
     setError('');
     setIsLoading(true);
-  
+
     try {
       const result = await signIn("credentials", {
-        user_id: user_id,
-        user_password: user_password,
+        user_id,
+        user_password,
         redirect: false,
         callbackUrl: '/'
       });
-    
+
       if (result?.error) {
         setError('로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.');
         console.error("Login error:", result.error);

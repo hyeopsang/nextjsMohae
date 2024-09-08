@@ -24,13 +24,11 @@ const RegisterForm: React.FC = () => {
     return true;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
-
-    if (!validateForm()) return;
-
     setIsLoading(true);
+
     try {
       const response = await axios.post('/api/userdata', {
         user_id,
@@ -39,14 +37,15 @@ const RegisterForm: React.FC = () => {
       });
 
       if (response.status === 200) {
-        router.push('/auth/signin');
+        console.log("Registration successful");
+        router.push('/login');
+      } else {
+        setError('회원가입에 실패했습니다.');
+        console.error("Registration failed:", response.data);
       }
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        setError(error.response.data.error || '회원가입 중 오류가 발생했습니다.');
-      } else {
-        setError('알 수 없는 오류가 발생했습니다.');
-      }
+      console.error("Registration error:", error);
+      setError('회원가입 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
     } finally {
       setIsLoading(false);
     }
