@@ -23,9 +23,10 @@ interface PostData {
 
 export const AddPost: React.FC<AddPostProps> = () => {
   const { data: session } = useSession();
-  const userId = session?.user?.email ?? '';
+  const userId = session?.user?.user_id;
+  const userNickName = session?.user?.user_nickname;
   const [title, setTitle] = useState<string>('');
-  const [content, setContent] = useState<string>('');  // mainTxt를 content로 변경
+  const [content, setContent] = useState<string>('');  
   const [error, setError] = useState<string | null>(null);
   const { setAddPost } = useTheme();
   
@@ -34,16 +35,16 @@ export const AddPost: React.FC<AddPostProps> = () => {
 
   const mutation = useMutation<PostData, Error, Omit<PostData, 'id'>>({
     mutationFn: async (newPost) => {
-      console.log('Sending data:', newPost);  // 전송되는 데이터 로깅
+      console.log('Sending data:', newPost);  
       const response = await axios.post<PostData>('/api/posts', newPost);
-      console.log('Server response:', response.data);  // 서버 응답 로깅
+      console.log('Server response:', response.data);  
       return response.data;
     },
     onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['posts'] });
         refetch()
         setTitle('');
-        setContent('');  // mainTxt를 content로 변경
+        setContent('');  
         setAddPost(false);
     },
     onError: (error) => {
@@ -59,7 +60,7 @@ export const AddPost: React.FC<AddPostProps> = () => {
       }
       e.preventDefault();
       try {
-        mutation.mutate({ user_id: userId, title: title, content: content , user_nickname: "게스트"});  // mainTxt를 content로 변경
+        mutation.mutate({ user_id: userId as string, user_nickname: userNickName as string, title: title, content: content });  // mainTxt를 content로 변경
       } catch (error) {
         console.log(error);
       }
@@ -70,7 +71,7 @@ export const AddPost: React.FC<AddPostProps> = () => {
   }
 
   const handleChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setContent(e.target.value);  // mainTxt를 content로 변경, 함수 이름도 변경
+      setContent(e.target.value);  
   }
 
   return (
@@ -85,8 +86,8 @@ export const AddPost: React.FC<AddPostProps> = () => {
           <textarea 
               placeholder="내용을 작성해 주세요" 
               className="w-full h-[200px] bg-transparent p-2 rounded mb-2 text-white" 
-              value={content}  // mainTxt를 content로 변경
-              onChange={handleChangeContent}  // handleChangeTxt를 handleChangeContent로 변경
+              value={content}  
+              onChange={handleChangeContent}  
           />
           <div className="w-full flex justify-end">
           {mutation.isPending ? (
@@ -101,7 +102,7 @@ export const AddPost: React.FC<AddPostProps> = () => {
                   <form onSubmit={onSubmit}>
                   <button 
                       type="submit"
-                      disabled={title.length === 0 || content.length === 0}  // mainTxt를 content로 변경
+                      disabled={title.length === 0 || content.length === 0} 
                       className={`mt-[15px] px-[15px] py-[5px] border rounded-[10px] ${title.length > 0 && content.length > 0 ? 'text-white cursor-pointer' : 'text-white/20'}`}
                   >
                       게시

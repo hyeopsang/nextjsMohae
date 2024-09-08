@@ -10,7 +10,6 @@ interface PostData {
     content: string;
     user_id: string;
     user_nickname: string;
-    // comments?: CommentData[]; // 필요한 경우 추가
 }
 
 interface PostProps {

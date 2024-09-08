@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
 import { ResultSetHeader, RowDataPacket, QueryResult } from 'mysql2';
-import pool from '../../libs/db'; // 데이터베이스 연결 설정
+import pool from '../../libs/db'; 
 
 
-// GET 메서드: 이메일로 사용자 조회
 export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);

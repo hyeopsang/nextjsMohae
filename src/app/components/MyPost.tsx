@@ -21,7 +21,7 @@ const fetchPosts = async (email: string) => {
 
 const MyPost: React.FC = () => {
   const { data: session } = useSession();
-  const email = session?.user?.email ?? '';
+  const email = session?.user?.user_nickname ?? '';
 
   const { data: myPosts, isLoading, error } = useQuery({
     queryKey: ['myPosts', email],

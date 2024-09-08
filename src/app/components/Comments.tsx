@@ -16,7 +16,7 @@ interface CommentProps {
 
 const Comments:React.FC<CommentProps> = ({e}) => {
     const { data: session } = useSession();
-    const userId = session?.user?.email ?? '';
+    const userId = session?.user?.user_nickname ?? '';
     const [loading, setLoading] = useState<boolean>(true); 
     const [error, setError] = useState<string | null>(null); 
 

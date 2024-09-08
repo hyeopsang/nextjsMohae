@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useTheme } from '../utils/themeContext'; // ThemeContext 사용
+import { useTheme } from '../utils/themeContext'; 
 import React from "react";
 import { signOut, signIn } from "next-auth/react"
 import { useSession } from "next-auth/react";

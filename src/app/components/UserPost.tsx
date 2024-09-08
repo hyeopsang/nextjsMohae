@@ -47,7 +47,6 @@ const UserPost: React.FC<PostProps> = ({ e }) => {
     useEffect(() => {
         const checkTextOverflow = () => {
             if (textRef.current) {
-                // 임시로 line-clamp 제거
                 textRef.current.classList.remove('line-clamp-5');
                 
                 const lineHeight = parseInt(window.getComputedStyle(textRef.current).lineHeight);

@@ -1,9 +1,8 @@
-import LoginPage from "../components/LoginPage";
+import LoginForm from "./LoginForm";
 
-export default function Login () {
-    return (
-        <div className="w-full h-full bg-white flex items-center justify-center">
-            <LoginPage/>
-        </div>
-    )
+const SignPage = () => {
+  return (
+    <LoginForm/>
+  )
 }
+export default SignPage;

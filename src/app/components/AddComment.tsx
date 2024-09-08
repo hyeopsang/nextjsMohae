@@ -11,7 +11,8 @@ const AddComment:React.FC<PostIdProps> = ({postId}) => {
     const [comment, setComment] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
 
-    const userId = session?.user?.email ?? '';
+    const userId = session?.user?.user_id ?? '';
+    const userNickName = session?.user?.user_nickname;
 
     const onChangeComment = (e: React.ChangeEvent<HTMLInputElement>) => {
         setComment(e.target.value);
@@ -23,7 +24,7 @@ const AddComment:React.FC<PostIdProps> = ({postId}) => {
                 user_id: userId,
                 content: comment,
                 post_id: postId,
-                user_nickname: "게스트"
+                user_nickname: userNickName
             });
             setComment(''); 
             setError(null); 
