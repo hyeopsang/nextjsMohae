@@ -26,6 +26,7 @@ function LoginForm() {
 
       if (result?.error) {
         setError('로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.');
+        console.log(result);
         console.error("Login error:", result.error);
       } else if (result?.ok) {
         console.log("Login successful");
