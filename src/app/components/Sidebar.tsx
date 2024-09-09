@@ -6,9 +6,11 @@ import { useTheme } from '../utils/themeContext';
 import React from "react";
 import { signOut, signIn } from "next-auth/react"
 import { useSession } from "next-auth/react";
-
+import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 const Sidebar:React.FC = () => {
+  const router = useRouter();
   const pathname = usePathname();
   const { data: session } = useSession();
   const { addPost, onChangeAddPost } = useTheme(); 
@@ -29,11 +31,29 @@ const Sidebar:React.FC = () => {
       fontVariation
     };
   };
+  const handleClick = async (e: React.MouseEvent) => {
+    if (!session) {
+      e.preventDefault();
+      const result = await Swal.fire({
+        title: '로그인이 필요해요!',
+        text: '로그인 페이지로 이동하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '로그인하기',
+        cancelButtonText: '취소'
+      });
 
+      if (result.isConfirmed) {
+        router.push('/login');
+      }
+    }
+  };
   return (
     <div className={`w-fit h-full pt-[8px] pb-[20px] px-[12px] group bg-white flex flex-col justify-center`}>
       <div className="w-fit grow space-y-[10px] text-[16px] font-[800] flex flex-col justify-center">
-        <Link href="/">
+        <Link href={"/"}>
           <div className={getLinkStyle('/').container}>
             <span className={getLinkStyle('/').iconClass} style={{ fontVariationSettings: getLinkStyle('/').fontVariation }}>
               home
@@ -54,18 +74,24 @@ const Sidebar:React.FC = () => {
                 add
             </p>
             <p className={`text-black hidden group-hover:block group-hover:w-[100px] text-center`}>
-                {addPost === false 
+                {
+                addPost === false 
                     ? 'post'
                     : 'return'
                 }
                 </p>
         </div>
-        <Link href="/myprofile">
+        <Link href="/myprofile" onClick={handleClick}>
           <div className={getLinkStyle('/myprofile').container}>
-            <span className={getLinkStyle('/myprofile').iconClass} style={{ fontVariationSettings: getLinkStyle('/myprofile').fontVariation }}>
+            <span 
+              className={getLinkStyle('/myprofile').iconClass} 
+              style={{ fontVariationSettings: getLinkStyle('/myprofile').fontVariation }}
+            >
               person
             </span>
-            <p className={`text-black hidden group-hover:block group-hover:w-[100px] text-center`}>profile</p>
+            <p className={`text-black hidden group-hover:block group-hover:w-[100px] text-center`}>
+              profile
+            </p>
           </div>
         </Link>
       </div>

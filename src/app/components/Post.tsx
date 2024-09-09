@@ -2,7 +2,11 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import CommentList from "./CommentList";
 import AddComment from "./AddComment";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { Session } from "inspector";
 
 interface PostData {
     id: number;
@@ -21,13 +25,34 @@ const Post: React.FC<PostProps> = ({ e }) => {
     const [showButton, setShowButton] = useState<boolean>(false);
     const textRef = useRef<HTMLDivElement>(null);
     const [showComment, setShowComment] = useState(false);
-
+    const {data: session} = useSession();
+    const router = useRouter();
     const handleClickExpand = useCallback(() => {
         setIsExpanded(prev => !prev);
     }, []);
 
-    const toggleComments = useCallback(() => {
-        setShowComment(prev => !prev);
+    const toggleComments = useCallback( async() => {
+        if (!session) {
+            const result = await Swal.fire({
+              title: '로그인이 필요해요!',
+              text: '로그인 페이지로 이동하시겠습니까?',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: '로그인하기',
+              cancelButtonText: '취소'
+            });
+    
+            if (result.isConfirmed) {
+              router.push('/login');
+            } else {
+              router.push('/');
+            }
+          }else{
+            setShowComment(prev => !prev);
+
+          }
     }, []);
 
     useEffect(() => {

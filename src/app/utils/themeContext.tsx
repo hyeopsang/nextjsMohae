@@ -1,6 +1,9 @@
 "use client";
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { AddPost } from "../components/PostList";
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 interface MyContextType {
   addPost: boolean;
@@ -16,8 +19,27 @@ const ThemeContext = createContext<MyContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [addPost, setAddPost] = useState<boolean>(false);
+  const {data: session} = useSession();
+  const router = useRouter();
 
-  const onChangeAddPost = () => {
+  const onChangeAddPost = async () => {
+    if (!session) {
+      const result = await Swal.fire({
+        title: '로그인이 필요해요!',
+        text: '로그인 페이지로 이동하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '로그인하기',
+        cancelButtonText: '취소'
+      });
+
+      if (result.isConfirmed) {
+        router.push('/login');
+      }
+      return;
+    }
     setAddPost(!addPost);
   };
 

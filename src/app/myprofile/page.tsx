@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import MyPost from '../components/MyPost';
+import { redirect } from 'next/navigation';
 
-const MyProfile: React.FC = () => {
-
+const MyProfile: React.FC = () => {  
   
   return (
     <div className={`w-full bg-white overflow-y-scroll`}>

@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
 import Link from "next/link";
+
 
 const UserInfo = () => {
     const { data: session } = useSession();
@@ -21,7 +21,7 @@ const UserInfo = () => {
                       프로필 수정
                   </div>
                 </Link>
-            </div>
+            </div>            
         </div>
     );
 }

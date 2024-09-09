@@ -2,7 +2,6 @@
 import AddComment from './AddComment';
 import CommentList from './CommentList';
 import axios from 'axios';
-import Image from 'next/image';
 import React, {useState, useRef, useEffect} from 'react';
 
 interface PostData {
