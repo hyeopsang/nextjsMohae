@@ -185,7 +185,7 @@ const PostList: React.FC = () => {
   return (
     <div>
       <Search onSearch={setSearchQuery} />
-      <div className="w-[35%] h-fit overflow-hidden bg-transparent rounded-t-[25px] mx-auto border-2 border-black/15 z-50 text-black">
+      <div className="w-[35%] h-fit overflow-hidden bg-transparent rounded-t-[25px] mx-auto border-2 border-b-0 border-black/15 z-50 text-black">
         <div className="bg-white/10 w-full h-fit">
           {filteredPosts.length > 0 ? (
             filteredPosts.map((post: PostData) => (

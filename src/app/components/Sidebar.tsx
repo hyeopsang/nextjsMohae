@@ -58,10 +58,10 @@ const Sidebar:React.FC = () => {
             <span className={getLinkStyle('/').iconClass} style={{ fontVariationSettings: getLinkStyle('/').fontVariation }}>
               home
             </span>
-            <p className={`text-black hidden group-hover:block group-hover:w-[100px] text-center`}>home</p>
+            <p className={`text-black hidden group-hover:block group-hover:w-[100px] text-center`}>홈</p>
           </div>
         </Link>
-        <div className={`w-fit group-hover:justify-between h-[52px] rounded-[12px] flex justify-center items-center overflow-hidden group bg-white/15 transition-all duration-[300ms] cursor-pointer relative`}
+        <div className={`w-fit group-hover:justify-between h-[52px] rounded-[12px] flex justify-center items-center overflow-hidden group bg-black/5 hover:bg-black/15 transition-all duration-[300ms] cursor-pointer relative`}
             onClick={()=> onChangeAddPost()}
         >
             <p 
@@ -76,7 +76,7 @@ const Sidebar:React.FC = () => {
             <p className={`text-black hidden group-hover:block group-hover:w-[100px] text-center`}>
                 {
                 addPost === false 
-                    ? 'post'
+                    ? '글 쓰기'
                     : 'return'
                 }
                 </p>
@@ -90,7 +90,7 @@ const Sidebar:React.FC = () => {
               person
             </span>
             <p className={`text-black hidden group-hover:block group-hover:w-[100px] text-center`}>
-              profile
+              프로필
             </p>
           </div>
         </Link>
